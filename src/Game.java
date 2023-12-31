@@ -46,8 +46,8 @@ public class Game {
 
      /*
      * This constructs the deck by utilizing a Stack that stores the type Card
-     * The outerloop is used to build the deck based on the number of suits: 4
-     * The inner loop is used to add all the possible values: 13
+     * The outerloop is used to build the deck based on the number of cardSuits: 4
+     * The inner loop is used to add all the possible cardValues: 13
      * After loops have completed I use the built in method for Stacks:(shuffle)
      * using Java Collections. This is to simulate an actual deck of Cards,
      * which is also why I chose the Stack as well to simulate picking up a card
@@ -56,38 +56,39 @@ public class Game {
      */
     public static Stack<Card> constructDeck()
     {
-        String suits = "CDHS";
-        String values = "23456789TJQKA";
-        Stack <Card> constructdeck = new Stack<>();
+        String cardSuits = "CDHS";
+        String cardValues = "23456789TJQKA";
+        Stack<Card> constructdeck = new Stack<>();
 
 
-        for(int i = 0; i < suits.length(); i++)
+        for(int i = 0; i < cardSuits.length(); i++)
         {
-            for(int j = 0; j < values.length(); j++)
+            for(int j = 0; j < cardValues.length(); j++)
             {
                 
-                if(suits.charAt(i) == 'C')
+                if(cardSuits.charAt(i) == 'C')
                 {
-                        constructdeck.push(new Card(suits.charAt(0), values.charAt(j)));
+                    constructdeck.push(new Card(cardSuits.charAt(0), cardValues.charAt(j)));
                 }
-                else if(suits.charAt(i) == 'D')
+                else if(cardSuits.charAt(i) == 'D')
                 {
-                    constructdeck.push(new Card(suits.charAt(1), values.charAt(j)));
+                    constructdeck.push(new Card(cardSuits.charAt(1), cardValues.charAt(j)));
                 }
                     
-                else if(suits.charAt(i) == 'H')
+                else if(cardSuits.charAt(i) == 'H')
                 {
-                    constructdeck.push(new Card(suits.charAt(2), values.charAt(j)));
+                    constructdeck.push(new Card(cardSuits.charAt(2), cardValues.charAt(j)));
                 }
                 else
                 {
-                    constructdeck.push(new Card(suits.charAt(3), values.charAt(j)));
+                    constructdeck.push(new Card(cardSuits.charAt(3), cardValues.charAt(j)));
                 }
                 
             }   
         }
         Collections.shuffle(constructdeck);
 
+        System.out.println("\nThe Deck has been constructed and Shuffled.\n\n");
         return constructdeck;
     }
 
@@ -108,25 +109,45 @@ public class Game {
     {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("would you like to play a game of Poker? y(yes) | n(no)");
+        System.out.println("would you like to play a game of Poker? yes | no");
         String answer = scanner.nextLine();
-
+        
         Game pokergame = new Game();
         pokergame.setStartGame(answer.charAt(0) == 'y');
         
         while(pokergame.getIsGameStart() && !pokergame.getIsGameQuit())
         { 
             Stack <Card> deck = constructDeck(); 
-            System.out.println("\nThe Deck has been constructed and Shuffled.");
             
-            Player one = createPlayers("White", deck);
-            Player two = createPlayers("Black", deck);
+            Player plrOne = createPlayers("White", deck);
+            Player plrTwo = createPlayers("Black", deck);
+            Hand plrOneHand = plrOne.getHand();
+            Hand plrTwoHand = plrTwo.getHand();
 
-            System.out.println("Would you like to see who wins? y(yes) | n(no)");
+            System.out.println("Would you like to see who wins? yes | no");
             if(scanner.nextLine().charAt(0) == 'y')
             {
-                
-                
+                System.out.println();
+                plrOne.getHand().displayHand();
+                System.out.print(": team "+plrOne.getTeam()+ " has " + plrOneHand.getHandType());
+                System.out.println();
+                plrTwo.getHand().displayHand();
+                System.out.print(": team "+plrTwo.getTeam()+ " has " + plrTwoHand.getHandType());
+                System.out.println();
+
+                int result = HandComparator.compareHands(plrOneHand, plrTwoHand);
+                if(result > 0)
+                {
+                    System.out.println(plrOne.getTeam() + " team wins with " + plrOneHand.getHandType() +": "+ plrOneHand.getHighCard());
+                }
+                else if(result < 0)
+                {
+                    System.out.println(plrTwo.getTeam() + " team wins with " + plrTwoHand.getHandType() +": "+  plrTwoHand.getHighCard());
+                }
+                else
+                {
+                    System.out.println("It's either a tie or one has a larger value than the other");
+                }
             }
             else
             {

@@ -1,7 +1,7 @@
 
 public class Player 
 {
-    private boolean won = false;
+    private int score = 0;
     private String team;
     private Hand hand;
     
@@ -12,9 +12,14 @@ public class Player
         this.hand = hand;
     }
 
-    public boolean getHasWon()
+    public void setScore(int score)
     {
-        return this.won;
+        this.score = score;
+    }
+
+    public int getScore()
+    {
+        return this.score;
     }
     public String getTeam()
     {
@@ -23,11 +28,5 @@ public class Player
     public Hand getHand()
     {
         return this.hand;
-    }
-
-    public void setHasWon(boolean didWin)
-    {
-        this.won = didWin;
-    }
-  
+    }  
 }
