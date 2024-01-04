@@ -56,37 +56,41 @@ public class Game {
      */
     public static Stack<Card> constructDeck()
     {
-        String cardSuits = "CDHS";
-        String cardValues = "23456789TJQKA";
+        Card.Suit[] cardSuits = Card.Suit.values();
+        Card.Value[] cardValues = Card.Value.values();
+        
         Stack<Card> constructdeck = new Stack<>();
 
 
-        for(int i = 0; i < cardSuits.length(); i++)
+        for(int i = 0; i < cardSuits.length; i++)
         {
-            for(int j = 0; j < cardValues.length(); j++)
+            for(int j = 0; j < cardValues.length; j++)
             {
                 
-                if(cardSuits.charAt(i) == 'C')
+                if(cardSuits[i] == Card.Suit.CLUBS)
                 {
-                    constructdeck.push(new Card(cardSuits.charAt(0), cardValues.charAt(j)));
+                    constructdeck.push(new Card(cardSuits[0], cardValues[j]));
                 }
-                else if(cardSuits.charAt(i) == 'D')
+                else if(cardSuits[i] == Card.Suit.DIAMONDS)
                 {
-                    constructdeck.push(new Card(cardSuits.charAt(1), cardValues.charAt(j)));
+                    constructdeck.push(new Card(cardSuits[1],  cardValues[j]));
                 }
                     
-                else if(cardSuits.charAt(i) == 'H')
+                else if(cardSuits[i] == Card.Suit.HEARTS)
                 {
-                    constructdeck.push(new Card(cardSuits.charAt(2), cardValues.charAt(j)));
+                    constructdeck.push(new Card(cardSuits[2],  cardValues[j]));
                 }
                 else
                 {
-                    constructdeck.push(new Card(cardSuits.charAt(3), cardValues.charAt(j)));
+                    constructdeck.push(new Card(cardSuits[i],  cardValues[j]));
                 }
                 
             }   
         }
         Collections.shuffle(constructdeck);
+        // for(Card a : constructdeck){
+        //     System.out.println(a.getValue() + " " + a.getSuit());
+        // }
 
         System.out.println("\nThe Deck has been constructed and Shuffled.\n\n");
         return constructdeck;
@@ -128,12 +132,12 @@ public class Game {
             if(scanner.nextLine().charAt(0) == 'y')
             {
                 System.out.println();
-                plrOne.getHand().displayHand();
-                System.out.print(": team "+plrOne.getTeam()+ " has " + plrOneHand.getHandType());
+                System.out.println("Team "+plrOne.getTeam()+ " has " + plrOneHand.getHandType());
+                 plrOneHand.displayHand();
                 System.out.println();
-                plrTwo.getHand().displayHand();
-                System.out.print(": team "+plrTwo.getTeam()+ " has " + plrTwoHand.getHandType());
-                System.out.println();
+                System.out.println("Team "+plrTwo.getTeam()+ " has " + plrTwoHand.getHandType());
+                plrTwoHand.displayHand();
+                System.out.println("\n");
 
                 int result = HandComparator.compareHands(plrOneHand, plrTwoHand);
                 if(result > 0)
@@ -165,7 +169,7 @@ public class Game {
         Player player  = new Player(team, drawCards(deck));
         System.out.println("Team: " + player.getTeam() + " drew the hand: " );
         player.getHand().displayHand();
-        System.out.println("\n");
+        System.out.println();
         
         return player;
     }

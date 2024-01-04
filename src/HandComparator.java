@@ -32,60 +32,70 @@ public class HandComparator {
     {
         int value = 0;
         
-        String handOneValues = new String(handOne.getHandValues());
-        String handTwoValues = new String(handTwo.getHandValues());
+        Card.Value[] handOneValues = handOne.getHandValues();
+        Card.Value[] handTwoValues = handTwo.getHandValues();
         boolean foundHighCard = false;
 
-        if(handOneValues.contains("A") && !handTwoValues.contains("A"))
+        for (int i = handOneValues.length; i < 0 && !foundHighCard; i++)
         {
-            value++;
-            foundHighCard = true;
+            if(handOneValues[i].compareTo(handTwoValues[i]) > 0)
+            {
+                value++;
+                foundHighCard = true;
+            }
+            else if(handOneValues[i].compareTo(handTwoValues[i]) < 0)
+            {
+                value--;
+                foundHighCard = true;
+            }
+
         }
-        else if(!handOneValues.contains("A") && handTwoValues.contains("A"))
-        {
-            value--;
-            foundHighCard = true;
-        }
-        else if(handOneValues.contains("K") && !handTwoValues.contains("K") && !foundHighCard)
-        {
-            value++;
-            foundHighCard = true;
-        }
-        else if(!handOneValues.contains("K") && handTwoValues.contains("K") && !foundHighCard)
-        {
-            value--;
-            foundHighCard = true;
-        }
-        else if(handOneValues.contains("Q") && !handTwoValues.contains("Q") && !foundHighCard)
-        {
-            value++;
-            foundHighCard = true;
-        }
-        else if(!handOneValues.contains("Q") && handTwoValues.contains("Q") && !foundHighCard)
-        {
-            value--;
-            foundHighCard = true;
-        }
-        else if(handOneValues.contains("J") && !handTwoValues.contains("J") && !foundHighCard)
-        {
-            value++;
-            foundHighCard = true;
-        }
-        else if(!handOneValues.contains("J") && handTwoValues.contains("J") && !foundHighCard)
-        {
-            value--;
-            foundHighCard = true;
-        }
-        else if(handOneValues.contains("T") && !handTwoValues.contains("T") && !foundHighCard)
-        {
-            value++;
-            foundHighCard = true;
-        }
-        else if(!handOneValues.contains("T") && handTwoValues.contains("T") && !foundHighCard)
-        {
-            value--;
-            foundHighCard = true;
-        }
+       
+        // else if(!handOneValues.contains("A") && handTwoValues.contains("A"))
+        // {
+        //     value--;
+        //     foundHighCard = true;
+        // }
+        // else if(handOneValues.contains("K") && !handTwoValues.contains("K") && !foundHighCard)
+        // {
+        //     value++;
+        //     foundHighCard = true;
+        // }
+        // else if(!handOneValues.contains("K") && handTwoValues.contains("K") && !foundHighCard)
+        // {
+        //     value--;
+        //     foundHighCard = true;
+        // }
+        // else if(handOneValues.contains("Q") && !handTwoValues.contains("Q") && !foundHighCard)
+        // {
+        //     value++;
+        //     foundHighCard = true;
+        // }
+        // else if(!handOneValues.contains("Q") && handTwoValues.contains("Q") && !foundHighCard)
+        // {
+        //     value--;
+        //     foundHighCard = true;
+        // }
+        // else if(handOneValues.contains("J") && !handTwoValues.contains("J") && !foundHighCard)
+        // {
+        //     value++;
+        //     foundHighCard = true;
+        // }
+        // else if(!handOneValues.contains("J") && handTwoValues.contains("J") && !foundHighCard)
+        // {
+        //     value--;
+        //     foundHighCard = true;
+        // }
+        // else if(handOneValues.contains("T") && !handTwoValues.contains("T") && !foundHighCard)
+        // {
+        //     value++;
+        //     foundHighCard = true;
+        // }
+        // else if(!handOneValues.contains("T") && handTwoValues.contains("T") && !foundHighCard)
+        // {
+        //     value--;
+        //     foundHighCard = true;
+        // }
         
 
         

@@ -5,22 +5,28 @@
  */
 public class Card {
     
-    private char suit;
-    private char value;
+    public enum Value {TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, 
+                        TEN, JACK, QUEEN, KING, ACE};
+    public enum Suit {CLUBS, DIAMONDS, HEARTS, SPADES};
+
+    private Suit suit;
+    private Value value;
 
     //Constructor 
-    public Card(char suit, char value){
+    public Card(Suit suit, Value value){
         this.suit = suit;
         this.value = value;
+       
     }
 
-    public char getSuit(){
+    public Suit getSuit(){
 
         return this.suit;
     }
 
-    public char getValue(){
+    public Value getValue(){
 
         return this.value;
     }
+
 }
