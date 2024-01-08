@@ -29,9 +29,10 @@ public class Game {
     }
 
     //setters
-    public void setScores(int[] scores)
+    public void updateGameScores(int playerOneScore, int playerTwoScore)
     {
-        this.scores = scores;
+        this.scores[0] = playerOneScore;
+        this.scores[1] = playerTwoScore;
     }
 
     public void setStartGame(boolean start)
@@ -58,41 +59,18 @@ public class Game {
     {
         Card.Suit[] cardSuits = Card.Suit.values();
         Card.Value[] cardValues = Card.Value.values();
-        
         Stack<Card> constructdeck = new Stack<>();
-
 
         for(int i = 0; i < cardSuits.length; i++)
         {
             for(int j = 0; j < cardValues.length; j++)
             {
-                
-                if(cardSuits[i] == Card.Suit.CLUBS)
-                {
-                    constructdeck.push(new Card(cardSuits[0], cardValues[j]));
-                }
-                else if(cardSuits[i] == Card.Suit.DIAMONDS)
-                {
-                    constructdeck.push(new Card(cardSuits[1],  cardValues[j]));
-                }
-                    
-                else if(cardSuits[i] == Card.Suit.HEARTS)
-                {
-                    constructdeck.push(new Card(cardSuits[2],  cardValues[j]));
-                }
-                else
-                {
-                    constructdeck.push(new Card(cardSuits[i],  cardValues[j]));
-                }
-                
+                constructdeck.push(new Card(cardSuits[i], cardValues[j]));
             }   
         }
         Collections.shuffle(constructdeck);
-        // for(Card a : constructdeck){
-        //     System.out.println(a.getValue() + " " + a.getSuit());
-        // }
-
         System.out.println("\nThe Deck has been constructed and Shuffled.\n\n");
+
         return constructdeck;
     }
 
@@ -109,68 +87,299 @@ public class Game {
         return hand;
     }
 
-    public static void startGame()
+    public static Hand pickCards(Stack<Card> deck)
     {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("would you like to play a game of Poker? yes | no");
-        String answer = scanner.nextLine();
-        
-        Game pokergame = new Game();
-        pokergame.setStartGame(answer.charAt(0) == 'y');
-        
-        while(pokergame.getIsGameStart() && !pokergame.getIsGameQuit())
-        { 
-            Stack <Card> deck = constructDeck(); 
-            
-            Player plrOne = createPlayers("White", deck);
-            Player plrTwo = createPlayers("Black", deck);
-            Hand plrOneHand = plrOne.getHand();
-            Hand plrTwoHand = plrTwo.getHand();
-
-            System.out.println("Would you like to see who wins? yes | no");
-            if(scanner.nextLine().charAt(0) == 'y')
+        Stack<Card> cardsDrawn = new Stack<>();
+        int numCardsToDraw = 5;
+        int count = 0;
+        while(count < numCardsToDraw)
+        {
+            System.out.println( "Pick your card value: 2: TWO 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 7: SEVEN, 8: EIGHT, 9: NINE, " +
+                "10: TEN, 11: JACK, 12: QUEEN, 13: KING, 14: ACE");
+            System.out.println("Followed by your Suit: c: clubs, d: diamonds, h: hearts, s: spades");
+            System.out.println("\nexample: 2c = TWO of CLUBS, 14d = ACE of DIAMONDS");
+            System.out.println("Pick card #" + (1 + count));
+            Card.Value cardValue = null;
+            String card = scanner.nextLine();
+            while(card.length() < 2)
             {
-                System.out.println();
-                System.out.println("Team "+plrOne.getTeam()+ " has " + plrOneHand.getHandType());
-                 plrOneHand.displayHand();
-                System.out.println();
-                System.out.println("Team "+plrTwo.getTeam()+ " has " + plrTwoHand.getHandType());
-                plrTwoHand.displayHand();
-                System.out.println("\n");
-
-                int result = HandComparator.compareHands(plrOneHand, plrTwoHand);
-                if(result > 0)
+                if((card.length() < 2))
                 {
-                    System.out.println(plrOne.getTeam() + " team wins with " + plrOneHand.getHandType() +": "+ plrOneHand.getHighCard());
+                    System.out.println("Please enter a valid card.");
+                    card = scanner.nextLine();
                 }
-                else if(result < 0)
+            }
+            int value = 0;
+            char suit =' ';
+            if(card.length() == 3)
+            {
+                value = Integer.parseInt(card.substring(0, 2));
+                suit = card.charAt(card.length() - 1);
+            }
+            else if(card.length() == 2)
+            {
+                value = Character.getNumericValue(card.charAt(0));
+                suit = card.charAt(1);
+            }
+         
+            switch (value) 
+            {
+                case 2:
+                    cardValue = Card.Value.TWO;
+                    break;
+                case 3:
+                    cardValue = Card.Value.THREE;
+                    break;
+                case 4:
+                    cardValue = Card.Value.FOUR;
+                    break;
+                case 5:
+                    cardValue = Card.Value.FIVE;
+                    break;
+                case 6:
+                    cardValue = Card.Value.SIX;
+                    break;
+                case 7:
+                    cardValue = Card.Value.SEVEN;
+                    break;
+                case 8:
+                    cardValue = Card.Value.EIGHT;
+                    break;
+                case 9:
+                    cardValue = Card.Value.NINE;
+                    break;
+                case 10:
+                    cardValue = Card.Value.TEN;
+                    break;
+                case 11:
+                    cardValue = Card.Value.JACK;
+                    break;
+                case 12:
+                    cardValue = Card.Value.QUEEN;
+                    break;
+                case 13:
+                    cardValue = Card.Value.KING;
+                    break;
+                case 14:
+                    cardValue = Card.Value.ACE;
+                    break;
+                default:
+                    cardValue = null;
+                     break;   
+            }
+            Card.Suit cardSuit = null;
+            switch (suit) 
+            {
+                case 'c':
+                    cardSuit = Card.Suit.CLUBS;
+                    break;
+                case 'd':
+                    cardSuit = Card.Suit.DIAMONDS;
+                    break;
+                case 'h':
+                    cardSuit = Card.Suit.HEARTS;
+                    break;
+                case 's':
+                    cardSuit = Card.Suit.SPADES;
+                    break;
+                default:
+                    break;
+            }
+            Card temp = new Card(cardSuit, cardValue);
+            boolean foundCard = false;
+            int indexToRemove = 0;
+            for(int j = 0; j < deck.size() - 1 && !foundCard; j++)
+            {
+                if(deck.get(j).getValue() == temp.getValue() && deck.get(j).getSuit() == temp.getSuit())
                 {
-                    System.out.println(plrTwo.getTeam() + " team wins with " + plrTwoHand.getHandType() +": "+  plrTwoHand.getHighCard());
-                }
-                else
-                {
-                    System.out.println("It's either a tie or one has a larger value than the other");
-                }
+                    indexToRemove = j;
+                    foundCard = true;  
+                }      
+            }
+            if(foundCard)
+            {
+                System.out.println("\nyour chosen card is: " + temp.getValue() + "|" + temp.getSuit());
+                cardsDrawn.push(deck.remove(indexToRemove));
+                count++; 
             }
             else
             {
-                pokergame.setQuitGame(true);
-            } 
+                System.out.println("Card already drawn! Pick again.");
+            }
         }
-       
-        System.out.println("Thanks for playing.");
-    
-        scanner.close();
+        Hand hand = new Hand(cardsDrawn);
+        
+        return hand;
     }
 
-    public static Player createPlayers(String team, Stack<Card> deck)
+    public static void startGame(Scanner scanner)
     {
-        Player player  = new Player(team, drawCards(deck));
-        System.out.println("Team: " + player.getTeam() + " drew the hand: " );
+    
+        System.out.println("would you like to play a game of Poker? enter: 'y' for yes | 'n' for no");
+        String answer = scanner.nextLine();
+        Game pokerGame = new Game();
+        pokerGame.setStartGame(answer.charAt(0) == 'y');
+        
+        while(pokerGame.getIsGameStart() && !pokerGame.getIsGameQuit())
+        { 
+            Stack <Card> deck = constructDeck(); 
+            System.out.println("To pick or randomize your hands enter: 'r' (random entry) | 'm' (manual entry).");
+            String drawType = scanner.nextLine();
+            boolean isRandom = true;
+            if(drawType.charAt(0) == 'm')
+            {
+                isRandom = false;
+            }
+
+            Player playerOne = createPlayers("Black", deck, isRandom);
+            Player playerTwo = createPlayers("White", deck, isRandom);
+            
+            System.out.println("Would you like to see who wins? yes | no");
+            boolean continuePlaying = scanner.nextLine().charAt(0) == 'y';
+
+            pokerGame.playRound(pokerGame, playerOne, playerTwo, continuePlaying);
+
+        }
+        
+    }
+
+    public void playRound(Game pokerGame, Player playerOne, Player playerTwo, boolean continuePlaying)
+    {
+
+        Hand playerOneHand = playerOne.getHand();
+        Hand playerTwoHand = playerTwo.getHand();
+
+        if(continuePlaying)
+        {
+            System.out.println();
+            System.out.println(playerOne.getTeam()+ " has " + playerOneHand.getHandType());
+            playerOneHand.displayHand();
+            System.out.println();
+            System.out.println(playerTwo.getTeam()+ " has " + playerTwoHand.getHandType());
+            playerTwoHand.displayHand();
+            System.out.println("\n");
+
+            int result = HandAnalyzer.compareHands(playerOneHand, playerTwoHand);
+            if(result > 0)
+            {
+                announceRoundWinner(playerOne);
+                announceAndSetGameScores(playerOne, playerTwo, pokerGame);
+            }
+            else if(result < 0)
+            {
+                announceRoundWinner(playerTwo);
+                announceAndSetGameScores(playerOne, playerTwo, pokerGame);
+            }
+            else
+            {
+                System.out.println("It's a tie.");
+            }
+        }
+        else
+        {
+            announceAndSetGameScores(playerOne, playerTwo, pokerGame);
+            pokerGame.setQuitGame(true);
+            announceWinner(playerOne, playerTwo, pokerGame);
+        }     
+    }
+
+    public static Player createPlayers(String team, Stack<Card> deck, boolean isRandom)
+    {
+        Hand hand = null;
+        if(isRandom)
+        {
+            hand = drawCards(deck);
+        }
+        else
+        {
+            System.out.println("\n" + team + ". Please choose your hand.");
+            hand = pickCards(deck);
+        }
+
+        Player player  = new Player(team, hand);
+        System.out.println(player.getTeam() + " drew the hand: " );
         player.getHand().displayHand();
         System.out.println();
         
         return player;
+    }
+
+    public static void announceRoundWinner(Player player)
+    {
+        Hand playerHand = player.getHand();
+        switch (playerHand.getHandType()) 
+        {
+            case Hand.HandTypes.PAIR:
+                System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": "+ playerHand.getOnePairCard() + "(s)"
+                + " with a " + playerHand.getHighCard() + " kicker.");
+                break;
+            case Hand.HandTypes.TWO_PAIR:
+                System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": "+ playerHand.getOnePairCard() + "(s) & "
+                + playerHand.getTwoPairCard() + "(s) with a " + playerHand.getHighCard() + " kicker.");
+                break;
+            case Hand.HandTypes.THREE_OF_A_KIND:
+                System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": triple "+ playerHand.getThreeKindCard() + "(s).");
+                break;
+            case Hand.HandTypes.STRAIGHT:
+                System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() + " " + playerHand.getHighCard() + " high.");
+                break;
+            case Hand.HandTypes.FLUSH:
+                System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() + " " + playerHand.getHighCard() + " high.");
+                break;
+            case Hand.HandTypes.FULL_HOUSE:
+                System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() + " " + playerHand.getThreeKindCard() + " over "
+                + playerHand.getOnePairCard());
+                break;
+            case Hand.HandTypes.FOUR_OF_A_KIND:
+                System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": quad "+ playerHand.getFourKindCard() + "(s).");
+                break;
+            case Hand.HandTypes.STRAIGHT_FLUSH:
+                System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +" " + playerHand.getHighCard() + " high.");
+                break;
+            default:
+                System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": "+ playerHand.getHighCard());
+                break;
+        }
+        player.setPlayerWon(true);
+
+    }
+
+    public static void announceWinner(Player playerOne, Player playerTwo, Game game)
+    {
+        System.out.println();
+        if(game.getScores()[0] > game.getScores()[1])
+        {
+            System.out.println(playerOne.getTeam() + " Wins!!");
+        }
+        else if(game.getScores()[0] < game.getScores()[1])
+        {
+            System.out.println(playerTwo.getTeam() + " Wins!!");
+        }
+        else
+        {
+             System.out.println("Nobody wins its a Tie!!");
+        }
+
+        System.out.println("Thanks for playing.");
+    }
+
+    public static void announceAndSetGameScores(Player playerOne, Player playerTwo, Game game)
+    {
+        int playerOneScore = game.getScores()[0];
+        int playerTwoScore = game.getScores()[1];
+        if(playerOne.getPlayerWon())
+        {
+            playerOneScore++;
+            game.updateGameScores(playerOneScore, playerTwoScore);
+        }
+        else if(playerTwo.getPlayerWon())
+        {   
+            playerTwoScore++;
+            game.updateGameScores(playerOneScore, playerTwoScore);
+        }
+
+        System.out.println("\nThe current score is: " + playerOne.getTeam() + ": " + game.getScores()[0]
+        + "    |    " + playerTwo.getTeam() + ": " + game.getScores()[1]);
     }
 }

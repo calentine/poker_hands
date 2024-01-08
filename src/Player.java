@@ -1,25 +1,24 @@
 
 public class Player 
 {
-    private int score = 0;
+    private boolean playerWon = false;
     private String team;
     private Hand hand;
     
-
     public Player(String team, Hand hand)
     {
         this.team = team;
         this.hand = hand;
     }
 
-    public void setScore(int score)
+    public void setPlayerWon(boolean won)
     {
-        this.score = score;
+        this.playerWon = won;
     }
 
-    public int getScore()
+    public boolean getPlayerWon()
     {
-        return this.score;
+        return this.playerWon;
     }
     public String getTeam()
     {
@@ -28,5 +27,10 @@ public class Player
     public Hand getHand()
     {
         return this.hand;
-    }  
+    } 
+    
+    public void updateHand(Hand hand)
+    {
+        this.hand = hand;
+    }
 }
