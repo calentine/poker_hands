@@ -41,32 +41,32 @@ public class TestCases {
         new TestingClass(playerOneInput, playerTwoInput);
     }
     /* 
-     * 
+     * Straight
     */
     public static void test5() {
        
-        String playerOneInput = "2c 3d 4h 5s 6c";  // Valid input for constructing a hand
-        String playerTwoInput = "2d 3c 4s 5h 6d";  // Valid input for constructing a hand
+        String playerOneInput = "2C 3D 4H 5S AC";  // Valid input for constructing a hand
+        String playerTwoInput = "AH AD KS KC QD";  // Valid input for constructing a hand
 
         new TestingClass(playerOneInput, playerTwoInput);
     }
     /* 
-     * 
+     * Flush
     */
     public static void test6() {
        
-        String playerOneInput = "2c 3d 4h 5s 6c";  // Valid input for constructing a hand
-        String playerTwoInput = "2d 3c 4s 5h 6d";  // Valid input for constructing a hand
+        String playerOneInput = "TC JD QH KS AC";  // Valid input for constructing a hand
+        String playerTwoInput = "2C 3C TC 7C AC";  // Valid input for constructing a hand
 
         new TestingClass(playerOneInput, playerTwoInput);
     }
     /* 
-     * 
+     * Full House
     */
     public static void test7() {
        
-        String playerOneInput = "2c 3d 4h 5s 6c";  // Valid input for constructing a hand
-        String playerTwoInput = "2d 3c 4s 5h 6d";  // Valid input for constructing a hand
+        String playerOneInput = "2C 3C TC 7C AC";  // Valid input for constructing a hand
+        String playerTwoInput = "2H 4S 4C 2D 4H";  // Valid input for constructing a hand
 
         new TestingClass(playerOneInput, playerTwoInput);
     }

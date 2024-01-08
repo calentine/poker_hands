@@ -134,7 +134,7 @@ public class Hand
         {
             setThreeKindCard(values[2]);
 
-            if(values[3] == values[4])
+            if(values[0] == values[2] && values[3] == values[4])
             {
                 setOnePairCard(values[3]);
             }

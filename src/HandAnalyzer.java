@@ -272,7 +272,6 @@ public class HandAnalyzer {
                     cardValue = Card.Value.ACE;
                     break;
                 default:
-                    cardValue = null;
                     break;   
             }
             Card.Suit cardSuit = null;
@@ -295,9 +294,7 @@ public class HandAnalyzer {
             }
             cardsToAdd.push(new Card(cardSuit, cardValue));
         }
-
         Hand hand = new Hand(cardsToAdd);
-       
 
         return hand;
     }

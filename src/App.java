@@ -17,6 +17,14 @@ public class App {
                 TestCases.test1();
                 TestCases.test2();
                 TestCases.test3();
+                TestCases.test4();
+                TestCases.test5();
+                TestCases.test6();
+                TestCases.test7();
+                // TestCases.test8();
+                // TestCases.test9();
+                // TestCases.test10();
+                // TestCases.test11();
             }
             else if(choice.charAt(0) == '2')
             {
