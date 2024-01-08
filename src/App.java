@@ -14,6 +14,8 @@ public class App {
     public static void startApp()
     {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("\nTo see poker rules visit: https://bicyclecards.com/how-to-play/basics-of-poker\n");
+        System.out.println("ATTENTION: For best experience please play with a window/terminal Full Screen.");
         System.out.println("What type of Poker Application would you like to run? enter: '1' (Test) | '2' (Game) | 'enter' (quit).");
         String choice = scanner.nextLine();
         while(!choice.isEmpty())
@@ -60,4 +62,5 @@ public class App {
         scanner.close();
         System.out.println("Application ended.");
     }
+   
 }

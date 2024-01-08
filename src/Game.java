@@ -334,40 +334,52 @@ public class Game {
         return player;
     }
 
-    //Announces Round winner: (message is based on Hand Type). Lists team winner, hand type, and hand values.
+    /*
+    * Announces Round winner: (message is based on Hand Type). Lists team winner, hand type, and hand values.
+    * Feel free to Comment out the 'printHand' function to remove ascii card art.
+    */
     public static void announceRoundWinner(Player player)
     {
         Hand playerHand = player.getHand();
         switch (playerHand.getHandType()) 
         {
             case Hand.HandTypes.PAIR:
+                printHand(playerHand);
                 System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": "+ playerHand.getOnePairCard() + "(s)"
                 + " with a " + playerHand.getHighCard() + " kicker.");
                 break;
             case Hand.HandTypes.TWO_PAIR:
+                printHand(playerHand);
                 System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": "+ playerHand.getOnePairCard() + "(s) & "
                 + playerHand.getTwoPairCard() + "(s) with a " + playerHand.getHighCard() + " kicker.");
                 break;
             case Hand.HandTypes.THREE_OF_A_KIND:
+                printHand(playerHand);
                 System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": triple "+ playerHand.getThreeKindCard() + "(s).");
                 break;
             case Hand.HandTypes.STRAIGHT:
+                printHand(playerHand);
                 System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() + " " + playerHand.getHighCard() + " high.");
                 break;
             case Hand.HandTypes.FLUSH:
+                printHand(playerHand);
                 System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() + " " + playerHand.getHighCard() + " high.");
                 break;
             case Hand.HandTypes.FULL_HOUSE:
+                printHand(playerHand);
                 System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() + " " + playerHand.getThreeKindCard() + " over "
                 + playerHand.getOnePairCard());
                 break;
             case Hand.HandTypes.FOUR_OF_A_KIND:
+                printHand(playerHand);
                 System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": quad "+ playerHand.getFourKindCard() + "(s).");
                 break;
             case Hand.HandTypes.STRAIGHT_FLUSH:
+                printHand(playerHand);
                 System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +" " + playerHand.getHighCard() + " high.");
                 break;
             default:
+                printHand(playerHand);
                 System.out.println(player.getTeam() + " wins with " + playerHand.getHandType() +": "+ playerHand.getHighCard());
                 break;
         }
@@ -413,5 +425,20 @@ public class Game {
 
         System.out.println("\nThe current score is: " + playerOne.getTeam() + ": " + game.getScores()[0]
         + "    |    " + playerTwo.getTeam() + ": " + game.getScores()[1]);
+    }
+
+    /*
+     * Prints the winning hand in ascii art.
+     */
+    public static void printHand(Hand hand)
+    {
+       
+        for(int i = 0; i < 5; i++)
+        {
+            Card cardToPrint = new Card(hand.getHandSuits()[i], hand.getHandValues()[i]);
+            String cardAscii = CardAsciiArt.getCardAsciiArt(cardToPrint);
+            System.out.println(cardAscii);
+        }
+        System.out.println("Your winning hand is Above. Scroll Up to see more Hand Details.");
     }
 }
