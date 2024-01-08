@@ -1,12 +1,24 @@
 import java.util.Stack;
 
+/*
+ * Utility Class that is used to analyze/compare hands
+ * and build test hands with hands passed in as strings as 
+ * provided in Poker hands kata.
+ */
 public class HandAnalyzer {
 
+    //Empty Constructor
     public HandAnalyzer()
     {
 
     }
 
+    /*
+    * Entry function which all other functions cascade for comparisions based on hand types.
+    * This function is only ever called if the hands being compared are equal. If so a switch
+    * Statement is executed based on the handtypes. The values returned are either > 0, < 0, or =.
+    * If > player1 wins, < player2, = tie.
+    */
     public static int compareHands(Hand handOne, Hand handTwo)
     {
         int value = (handOne.getHandType()).compareTo(handTwo.getHandType());
@@ -47,6 +59,10 @@ public class HandAnalyzer {
         return value;
     }
 
+    /*
+     * compare & return value for the best high card by looping over the hand and sets the high card 
+     * in the process to help with assigning a value to the high card when declaring the winner.
+     */
     public static int getBestHighCardHand(Hand handOne, Hand handTwo)
     {
         int value = 0;
@@ -71,7 +87,11 @@ public class HandAnalyzer {
         } 
         return value;
     }
-
+    /*
+     * Compares the best pair(s) in the hands based on the amount of pairs. First compare
+     * one pair value, then if 2 pair compare 2 pair value and 1 pair value. If equal we
+     * compare the best high card hand to decide if there is a better rank(kicker).
+     */
     public static int getBestPairHand(Hand handOne, Hand handTwo, int pairCount)
     {
         int value = 0;
@@ -88,7 +108,7 @@ public class HandAnalyzer {
         }
         else if(pairCount == 2)
         {
-             if(handOne.getTwoPairCard().compareTo(handTwo.getTwoPairCard()) > 0)
+            if(handOne.getTwoPairCard().compareTo(handTwo.getTwoPairCard()) > 0)
             {
                 value++;
             }
@@ -96,23 +116,29 @@ public class HandAnalyzer {
             {
                 value--;
             }
+
+            if(value == 0)
+            {
+                if(handOne.getOnePairCard().compareTo(handTwo.getOnePairCard()) > 0)
+                {
+                    value++;
+                }
+                else if(handOne.getOnePairCard().compareTo(handTwo.getOnePairCard()) < 0)
+                {
+                    value--;
+                }
+            }
         }
 
         if(value == 0)
         {
-            if(handOne.getHighCard().compareTo(handTwo.getHighCard()) > 0)
-            {
-                value++;
-            }
-            else if(handOne.getHighCard().compareTo(handTwo.getHighCard()) < 0)
-            {
-                value--;
-            }
+          value = getBestHighCardHand(handOne, handTwo); 
         }
 
         return value;
     }
 
+    //compare & return value for best three of a kind hand
     public static int getBestThreeOfKindHand(Hand handOne, Hand handTwo)
     {
         int value = 0;
@@ -128,6 +154,7 @@ public class HandAnalyzer {
         return value;
     }
 
+    //compare & return value for best four of a kind hand
     public static int getBestFourOfKindHand(Hand handOne, Hand handTwo)
     {
         int value = 0;
@@ -142,6 +169,7 @@ public class HandAnalyzer {
         return value;
     }
 
+    //compare & return value for best Straight hand
     public static int getBestStraightHand(Hand handOne, Hand handTwo)
     {
         int value = 0;
@@ -156,22 +184,14 @@ public class HandAnalyzer {
 
         return value;
     }
-       
+    //compare & return value for best flush card hand
     public static int getBestFlushHand(Hand handOne, Hand handTwo)
     {
-        int value = 0;
-        if(handOne.getHighCard().compareTo(handTwo.getHighCard()) > 0)
-        {
-            value++;
-        }
-        else if(handOne.getHighCard().compareTo(handTwo.getHighCard()) < 0)
-        {
-            value--;
-        }
-
+        int value = getBestHighCardHand(handOne, handTwo);
+    
         return value;
     }
-
+    //compare & return value for bestFull house hand
     public static int getBestFullHouseHand(Hand handOne, Hand handTwo)
     {
         int value = 0;
@@ -186,7 +206,7 @@ public class HandAnalyzer {
 
         return value;
     }
-
+    //compare & return value for best straight flush hand
     public static int getBestStraightFlushHand(Hand handOne, Hand handTwo)
     {
         int value = 0;
@@ -201,7 +221,15 @@ public class HandAnalyzer {
 
         return value;
     }
-
+    /*
+     * This is a function that provides construction of the players 
+     * hands for test cases. Instead of relying user input you just 
+     * pass in string arguments that are later evaluated. Since we know
+     * the pattern is as follows: "CardValue, CardSuit, whitespace" we can
+     * parse the string using isWhitespace and storing the index to use 
+     * to rebuild the substring each time until we have extracted all the 
+     * values and suits from the passed in string.
+     */
     public static Hand constructPlayerHand(String stringToParse)
     {
         char value = ' ';

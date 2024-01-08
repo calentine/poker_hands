@@ -1,10 +1,16 @@
 import java.util.Scanner;
 
+/*
+ * Main Class to start the application
+ */
 public class App {
     public static void main(String[] args) throws Exception {
         startApp();
     }
 
+    /*
+     * Function gives you choices to run test cases, play a game of poker, or quit the application.
+     */
     public static void startApp()
     {
         Scanner scanner = new Scanner(System.in);
@@ -15,16 +21,29 @@ public class App {
             if(choice.charAt(0) == '1')
             {
                 TestCases.test1();
+                TestCases.test1a();
+                TestCases.test1b();
                 TestCases.test2();
+                TestCases.test2a();
+                TestCases.test2b();
                 TestCases.test3();
+                TestCases.test3a();
+                TestCases.test3b();
                 TestCases.test4();
+                TestCases.test4a();
                 TestCases.test5();
+                TestCases.test5a();
+                TestCases.test5b();
                 TestCases.test6();
+                TestCases.test6a();
+                TestCases.test6b();
+                TestCases.test6c();
                 TestCases.test7();
-                // TestCases.test8();
-                // TestCases.test9();
-                // TestCases.test10();
-                // TestCases.test11();
+                TestCases.test7a();
+                TestCases.test8();
+                TestCases.test8a();
+                TestCases.test9();
+                TestCases.test10();  
             }
             else if(choice.charAt(0) == '2')
             {

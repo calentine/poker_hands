@@ -2,6 +2,10 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.Stack;
 
+/*
+ * Game Class: handles printing, scanning user input, keeping score, announcing winners,
+ * quiting, and starting the game.
+ */
 public class Game {
 
     private boolean startGame = false;
@@ -53,7 +57,7 @@ public class Game {
      * using Java Collections. This is to simulate an actual deck of Cards,
      * which is also why I chose the Stack as well to simulate picking up a card
      * from the top of the deck
-     * The time complexity is O(n^2)
+     * The time complexity is O(n^2).
      */
     public static Stack<Card> constructDeck()
     {
@@ -74,6 +78,10 @@ public class Game {
         return constructdeck;
     }
 
+    /*
+     * As stated above I chose the Stack data structure for its resemblance to deck of cards.
+     * Draw 5 cards by popping of the top of the deck pushing into the players hand.
+    */
     public static Hand drawCards(Stack<Card> deck)
     {
         Stack<Card> cardsDrawn = new Stack<>();
@@ -87,6 +95,13 @@ public class Game {
         return hand;
     }
 
+    /*
+     * This is a function that is called if the player wants to manually pick there 
+     * cards (very time consuming... but an option). Provides text to explain how to pick the cards.
+     * The prompt will continue to ask for cards until both teams (black & white) have drawn 5 cards each.
+     * I chose to use a string containing numbers and a single character in which I parse through below based
+     * on string length 2 or 3. Cards are removed from the deck as its drawn to avoid duplicate hands.
+     */
     public static Hand pickCards(Stack<Card> deck)
     {
         Scanner scanner = new Scanner(System.in);
@@ -102,7 +117,8 @@ public class Game {
             System.out.println("Pick card #" + (1 + count));
             Card.Value cardValue = null;
             String card = scanner.nextLine();
-            while(card.length() < 2)
+            //error check
+            while(card.length() < 2) 
             {
                 if((card.length() < 2))
                 {
@@ -213,6 +229,15 @@ public class Game {
         return hand;
     }
 
+    /*
+     * Starts the game and prompts the user to see if they would like to play the game or not.
+     * If the user enters y then the game loop begins. The user can then choose to draw randomly (suggested),
+     * or by manual entry. The players are then created and assigned their team names and hands. The game
+     * will then ask the user if they would like to see who wins (continue playing), and if so the winner
+     * will be announced each round or until the user enters 'n' when asked to continue playing then the 
+     * game loop ends. After that the initial loop will start to see if you want to either run test cases
+     * or play again.
+    */
     public static void startGame(Scanner scanner)
     {
     
@@ -244,6 +269,9 @@ public class Game {
         
     }
 
+    /*
+     * This starts the round for each hand played. See details above (StartGame function).
+     */
     public void playRound(Game pokerGame, Player playerOne, Player playerTwo, boolean continuePlaying)
     {
 
@@ -284,6 +312,7 @@ public class Game {
         }     
     }
 
+    //Creates players by assigning the team, choosing hand type (random/manual), then returns player.
     public static Player createPlayers(String team, Stack<Card> deck, boolean isRandom)
     {
         Hand hand = null;
@@ -305,6 +334,7 @@ public class Game {
         return player;
     }
 
+    //Announces Round winner: (message is based on Hand Type). Lists team winner, hand type, and hand values.
     public static void announceRoundWinner(Player player)
     {
         Hand playerHand = player.getHand();
@@ -345,6 +375,7 @@ public class Game {
 
     }
 
+    //Just announces the actual winner if the game is quit/thanks for playing
     public static void announceWinner(Player playerOne, Player playerTwo, Game game)
     {
         System.out.println();
@@ -364,6 +395,7 @@ public class Game {
         System.out.println("Thanks for playing.");
     }
 
+    //Updates the current score and prints the message to the user after each round won/lost.
     public static void announceAndSetGameScores(Player playerOne, Player playerTwo, Game game)
     {
         int playerOneScore = game.getScores()[0];

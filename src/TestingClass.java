@@ -1,8 +1,13 @@
+/*
+ * Testing Class utilized to run every test by passing 2 string arguments(playerOneInput & playerTwoInput)
+ * This Class only contains 2 member variables which are initialized in the constructor.
+ */
 public class TestingClass {
 
     private String playerOneInput;
     private String playerTwoInput;
 
+    // Constructor defines the input for each player and then calls the start test. 
     public TestingClass(String inputOne, String inputTwo)
     {
         this.playerOneInput = inputOne;
@@ -10,6 +15,16 @@ public class TestingClass {
         startTest(this.playerOneInput, this.playerTwoInput);
     }
 
+    /*
+     * First is the assignment of the teams, since we know there is
+     * only black and white there is no need to declare it in the 
+     * player input parameters below. We then create the hands by
+     * calling the HandAnalyzer utility class to convert the strings 
+     * passed into actual hands that can be compared to declare a winner.
+     * The hand analyzer utility class then returns an integer and based on 
+     * the value we declare playerOne/playerTwo as the winner, or a tie using
+     * the Game Class.
+     */
     public void startTest(String playerOneInput, String playerTwoInput)
     {
         String teamOne = "Black";

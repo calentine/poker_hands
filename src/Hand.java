@@ -1,6 +1,15 @@
 import java.util.Arrays;
 import java.util.Stack;
 
+/*
+ * Hand Class: is the class which is essentially a stack data structure
+ * filled with Cards. I chose a stack because of how closely it resembles
+ * an actual deck of cards (pick a card off the top of the stack[LIFO]).
+ * It contains an enum for HandTypes to determine the type of hand each player has
+ * after it is evaluated using the evaluateHand function. It also contains the following
+ * private member variables:  hand, highCard, onePairCard, twoPairCard, threeOfKindCard, fourOfKindCard
+ * to make it easier for the comparison stage in the Hand Analyzer utility class.
+ */
 public class Hand 
 {
     public enum HandTypes
@@ -20,13 +29,14 @@ public class Hand
     private Card.Value fourOfKindCard = null;
     
     
-    //Constructor
+    //Constructor is defined by the hand of course and we evaluate the hand immediately upon creating.
     public Hand(Stack<Card> hand)
     {
         this.hand = hand;
         evaluateHand();
     }
 
+    //helper function to display the cards in a hand
     public void displayHand()
     {
         for(Card card: hand)
@@ -35,9 +45,11 @@ public class Hand
         }
     }
 
+    /* helper function to help construct the hand numerical values in a sorted order 
+    * to make comparison easier in the Hand Analyzer utility class.
+    */
     public Card.Value[] getHandValues()
     {
-    
         Card.Value[] values = new Card.Value[hand.size()];
         for(int i = 0; i < hand.size(); i++)
         {
@@ -48,6 +60,9 @@ public class Hand
         return values;
     }
 
+    /* helper function to help divide the suits for easier comparision in the
+    *  utility class, as well as deciding if we have a Flush/Straight flush hand type.
+    */
     public Card.Suit[] getHandSuits()
     {
         Card.Suit[] suits = new Card.Suit[hand.size()];
@@ -59,14 +74,19 @@ public class Hand
         return suits;
     }
 
+    //getter for hand type which is defined below through conditional checks
     public HandTypes getHandType()
     {
         return this.handType;
     }
 
+    /* This is where all the evaluation takes place in order to properly assign the hand type and
+    * other member variables. First we separate the numerical values and suites into arrays to further
+    * evaluate the hands and decide on what type of hand we have and assign values to the member variables
+    * for the comparison stage in the Hand Analyzer utility class.
+    */
     public void evaluateHand()
     {
-        
         Card.Value[] values = getHandValues();
         Card.Suit[] suits = getHandSuits();
         
@@ -116,6 +136,7 @@ public class Hand
         
     }
 
+    //Checks if four of a kind and assigns the value of the Four of a kind card.
     public boolean isFourOfAKind(Card.Value[] values)
     {
         boolean bIsFourOfAKind = (values[0] == values[3] || values[1] == values[4]);
@@ -126,7 +147,12 @@ public class Hand
 
         return bIsFourOfAKind;
     }
-
+ 
+    /*Checks if Full house and assigns the value of the Three of a Kind card 
+    * and onepair card for comparison later. Keep in mind that because the cards 
+    * are sorted we know that the three of a kind has to be the value of the 3rd position 
+    * in the hand using set logic (venn diagram)
+    */
     public boolean isFullHouse(Card.Value[] values)
     {
         boolean bIsFullHouse = (values[0] == values[2] && values[3] == values[4]) || (values[0] == values[1] && values[2] == values[4]);
@@ -147,6 +173,10 @@ public class Hand
         return bIsFullHouse;
     }
 
+    /*Checks if Three of a kind and assigns the value of the Three of a Kind card 
+    * for comparison later. Also, as we saw above we know that the three of a kind value
+    * is in the 3rd position of the hand using set logic (venn diagram)
+    */
     public boolean isThreeOfAKind(Card.Value[] values)
     {
         boolean bIsThreeOfAKind = (values[0] == values[2] || values[1] == values[3] || values[2] == values[4]);
@@ -159,6 +189,7 @@ public class Hand
         return bIsThreeOfAKind;
     }
 
+    //gets # of pairs in the hand and sets the private members representing their values to compare later.
     public int getNumPairs(Card.Value[] values)
     {
         int pairs = 0;
@@ -181,6 +212,9 @@ public class Hand
         return pairs;
     }
 
+    /* Using a loop we check to see if we have a straight and also add a special case because 
+    *  the Ace counts as two values. Also set the high card for comparisions in the utiliy class as well.
+    */
     public boolean checkIfStraight(Card.Value[] values)
     {
         
@@ -199,7 +233,8 @@ public class Hand
         
         return isAStraight || specialCaseStraight;
     }
-
+    
+    //Checks if the the hand is a flush by comparing each the suit of each card in the hand.
     public boolean checkIfFlush(Card.Suit[] suits)
     {
         boolean isAFlush = true;
@@ -212,6 +247,7 @@ public class Hand
         return isAFlush;
     }
 
+    //Below is all the getters and setters for the member variables in this class.
     public Card.Value getHighCard()
     {
         return this.highCard;
