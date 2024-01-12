@@ -432,7 +432,6 @@ public class Game {
      */
     public static void printHand(Hand hand)
     {
-       
         for(int i = 0; i < 5; i++)
         {
             Card cardToPrint = new Card(hand.getHandSuits()[i], hand.getHandValues()[i]);

@@ -68,21 +68,20 @@ public class HandAnalyzer {
         int value = 0;
         Card.Value[] handOneValues = handOne.getHandValues();
         Card.Value[] handTwoValues = handTwo.getHandValues();
-        boolean foundHigherCard = false;
         int handSize = handOneValues.length - 1;
-        for (int i = handSize; i >= 0 && !foundHigherCard; i--)
+        for (int i = handSize; i >= 0; i--)
         {
             if(handOneValues[i].compareTo(handTwoValues[i]) > 0)
             {
                 value++;
                 handOne.setHighCard(handOneValues[i]);
-                foundHigherCard = true;
+                break;
             }
             else if(handOneValues[i].compareTo(handTwoValues[i]) < 0)
             {
                 value--;
                 handTwo.setHighCard(handTwoValues[i]);
-                foundHigherCard = true;
+               break;
             }
         } 
         return value;
@@ -237,9 +236,8 @@ public class HandAnalyzer {
         Stack<Card> cardsToAdd = new Stack<>();
         for(int i = 0; i < 5; i++)
         {
-            boolean foundCard = false;
             int length = stringToParse.length();
-            for(int j = 0; j < length && !foundCard; j++)
+            for(int j = 0; j < length; j++)
             {   
                 if(Character.isWhitespace(stringToParse.charAt(j)))
                 {
@@ -249,7 +247,7 @@ public class HandAnalyzer {
                     value = temp.charAt(0);
                     suit = temp.charAt(1);
                     
-                    foundCard = true;
+                    break;
                 }
                 if(length == 2)
                 {
